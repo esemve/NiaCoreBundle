@@ -1,1 +1,3 @@
-#Core Bundle my personal NIA CMS
+# NiaCorebundle
+
+This is the Core Bundle of my personal CMS
