@@ -1,0 +1,38 @@
+NiaCoreBundle@form.AbstractType.submit: Küldés
+NiaCoreBundle@message.id: Azonosító
+NiaCoreBundle@enum.CacheEnum.NEGATIVE_CACHE: 'Negative cache value'
+NiaCoreBundle@enum.OrderEnum.ASC: Növekvő
+NiaCoreBundle@enum.OrderEnum.DESC: Csökkenő
+NiaCoreBundle@enum.StatusEnum.ACTIVE: Aktív
+NiaCoreBundle@enum.StatusEnum.INACTIVE: Inaktív
+LOCALE@hu: Magyar
+LOCALE@en: Angol
+NiaCoreBundle@form.AbstractType.seo_title: 'SEO cím'
+NiaCoreBundle@form.AbstractType.seo_description: 'SEO leírás'
+NiaCoreBundle@form.AbstractType.seo_keywords: 'SEO kulcsszavak'
+NiaCoreBundle@error.value_used: 'Ez az érték már használatban van!'
+NiaCoreBundle@enum.IsNewEnum.TRUE: Új
+NiaCoreBundle@enum.IsNewEnum.FALSE: Nem
+NiaCoreBundle@enum.IsNewEnum.UNKNOWN: Ismeretlen
+NiaCoreBundle@developer: Fejlesztő
+NiaCoreBundle@message.systemhealth: Rendszerinfó
+NiaCoreBundle@button.delete: Törlés
+NiaCoreBundle@button.cancel: Mégsem
+NiaCoreBundle@http.status.404: 'Az oldal nem található!'
+NiaCoreBundle@http.status.500: 'Hiba történt az oldal betöltése közben!'
+NiaCoreBundle@button.save: Mentés
+NiaCoreBundle@popup.edittitle: Szerkesztés
+NiaCoreBundle@message.locale: Nyelv
+LOCALE@: Nyelv
+NiaCoreBundle@form.AbstractType.save: Mentés
+NiaCoreBundle@enum.LogEventEnum.CREATE: Létrehozás
+NiaCoreBundle@enum.LogEventEnum.EDIT: Szerkesztés
+NiaCoreBundle@enum.LogEventEnum.DELETE: Törlés
+NiaCoreBundle@enum.LogEventEnum.SHOW: Megjelenítés
+NiaCoreBundle@enum.LogEventEnum.LOG_IN: Bejelentkezés
+NiaCoreBundle@enum.LogEventEnum.SEND: Küldés
+NiaCoreBundle@enum.LogEventEnum.START: Start
+NiaCoreBundle@enum.LogEventEnum.STOP: Stop
+NiaCoreBundle@enum.LogEventEnum.INFO: Információ
+NiaCoreBundle@enum.LogEventEnum.UPLOAD: Feltöltés
+NiaCoreBundle@alert.succesfulCopy: 'Sikeresen vágólapra másolva:'

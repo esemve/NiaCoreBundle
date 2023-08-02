@@ -1,0 +1,16 @@
+translation_js:
+    path: '/translation/{locale}/trans.js'
+    controller: 'Nia\CoreBundle\Controller\TranslationController::portal'
+
+translation_admin_js:
+    path: '/translation/a/{locale}/trans.js'
+    controller: 'Nia\CoreBundle\Controller\TranslationController::admin'
+
+admin_bundle:
+  resource: "@NiaAdminBundle/Resources/routes/portal/routes.yaml"
+
+user_bundle:
+  resource: "@NiaUserBundle/Resources/routes/portal/routes.yaml"
+
+menu_bundle:
+  resource: "@NiaMenuBundle/Resources/routes/portal/routes.yaml"

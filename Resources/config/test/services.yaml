@@ -1,0 +1,16 @@
+services:
+
+  nia.test.session.storage:
+    class: 'Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage'
+
+  nia.test.session:
+    class: 'Symfony\Component\HttpFoundation\Session\Session'
+    arguments:
+      - '@nia.test.session.storage'
+
+  nia.core.form.mediator:
+    class: '%nia.core.form.mediator.class%'
+    public: true
+    arguments:
+      - '@nia.test.session'
+

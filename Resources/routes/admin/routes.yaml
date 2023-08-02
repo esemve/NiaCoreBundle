@@ -1,0 +1,14 @@
+user_bundle:
+  resource: "@NiaUserBundle/Resources/routes/admin/routes.yaml"
+
+menu_bundle:
+  resource: "@NiaMenuBundle/Resources/routes/admin/routes.yaml"
+
+content_bundle:
+  resource: "@NiaContentBundle/Resources/routes/admin/routes.yaml"
+
+developer_stuff:
+  resource: "developer.yaml"
+
+admin_bundle:
+  resource: "@NiaAdminBundle/Resources/routes/admin/routes.yaml"

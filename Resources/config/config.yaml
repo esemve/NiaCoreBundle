@@ -1,0 +1,47 @@
+doctrine:
+  dbal:
+      types:
+          stringList: 'Nia\CoreBundle\Doctrine\DBAL\Types\StringListType'
+          intList: 'Nia\CoreBundle\Doctrine\DBAL\Types\IntListType'
+          statusEnum: 'Nia\CoreBundle\Doctrine\DBAL\Types\StatusEnumType'
+          logEventEnum: 'Nia\CoreBundle\Doctrine\DBAL\Types\LogEventEnumType'
+
+nia_core:
+
+    manager_mapping:
+        nia.core.migration.manager: 'Nia\CoreBundle\Entity\Migration'
+
+    translation_keys:
+        - 'LOCALE@hu'
+        - 'LOCALE@en'
+        - 'NiaCoreBundle@message.locale'
+        - 'NiaCoreBundle@error.value_used'
+        - 'NiaCoreBundle@developer'
+        - 'NiaCoreBundle@http.status.404'
+        - 'NiaCoreBundle@http.status.500'
+        - 'NiaCoreBundle@button.save'
+        - 'NiaCoreBundle@popup.edittitle'
+        - 'NiaCoreBundle@alert.succesfulCopy'
+
+    javascript_admin_translations:
+        - 'LOCALE@hu'
+        - 'LOCALE@en'
+        - 'NiaCoreBundle@button.delete'
+        - 'NiaCoreBundle@button.cancel'
+        - 'NiaCoreBundle@alert.succesfulCopy'
+
+    javascript_portal_translations:
+        - 'LOCALE@hu'
+        - 'LOCALE@en'
+
+    context:
+      Nia\UserBundle\Entity\AbstractUser::getRoles:
+        roles:
+          - 'ROLE_GROUPS_SHOW'
+
+      Queue:execute:
+        roles:
+          - 'ROLE_QUEUE_SHOW'
+          - 'ROLE_QUEUE_DELETE'
+          - 'ROLE_QUEUE_CREATE'
+          - 'ROLE_QUEUE_EDIT'

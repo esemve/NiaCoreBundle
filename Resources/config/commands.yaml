@@ -1,0 +1,92 @@
+parameters:
+    nia.core.command.create_migration.class: 'Nia\CoreBundle\Command\CreateMigrationCommand'
+    nia.core.command.migrate.class: 'Nia\CoreBundle\Command\MigrateCommand'
+    nia.core.command.translation_update.class: 'Nia\CoreBundle\Command\TranslationUpdateCommand'
+    nia.core.command.queue_worker.class: 'Nia\CoreBundle\Command\QueueWorkerCommand'
+    nia.core.command.queue_run.class: 'Nia\CoreBundle\Command\RunOneQueueMessageCommand'
+    nia.core.command.memory_cache_clear.class: 'Nia\CoreBundle\Command\MemoryCacheClearCommand'
+    nia.core.command.get_last_available_migration.class: 'Nia\CoreBundle\Command\GetLastAvailableMigrationCommand'
+    nia.core.command.rollback_migration.class: 'Nia\CoreBundle\Command\RollbackMigrationCommand'
+
+services:
+    nia.core.command.abstract:
+        abstract: true
+        calls:
+            - [ setContextFactory , ['@nia.core.security_context.factory']]
+
+    nia.core.command.create_migration:
+        parent: 'nia.core.command.abstract'
+        class: '%nia.core.command.create_migration.class%'
+        calls:
+            - [ setEntityManager , ['@nia.core.entity.manager']]
+            - [ setProjectDir, ['%kernel.project_dir%']]
+        tags:
+            - 'console.command'
+
+    nia.core.command.migrate:
+        parent: 'nia.core.command.abstract'
+        class: '%nia.core.command.migrate.class%'
+        calls:
+            - [ setEntityManager , ['@nia.core.entity.manager']]
+            - [ setProjectDir, ['%kernel.project_dir%']]
+            - [ setEntityFactory, ['@nia.core.entity.factory']]
+            - [ setAppType , [ '%kernel.app_type%']]
+            - [ setDatabaseUrl, ['%database_url%']]
+        tags:
+            - 'console.command'
+
+    nia.core.command.get_last_available_patch:
+        parent: 'nia.core.command.abstract'
+        class: '%nia.core.command.get_last_available_migration.class%'
+        calls:
+            - [ setEntityManager , ['@nia.core.entity.manager']]
+            - [ setProjectDir, ['%kernel.project_dir%']]
+        tags:
+            - 'console.command'
+
+    nia.core.command.memory_cache_clear:
+        parent: 'nia.core.command.abstract'
+        class: '%nia.core.command.memory_cache_clear.class%'
+        calls:
+            - [ setCacheProvider, ['@nia.core.cache.provider']]
+        tags:
+            - 'console.command'
+
+    nia.core.command.rollback_migration:
+        parent: 'nia.core.command.abstract'
+        class: '%nia.core.command.rollback_migration.class%'
+        calls:
+            - [ setEntityManager , ['@nia.core.entity.manager']]
+            - [ setProjectDir, ['%kernel.project_dir%']]
+            - [ setPatchLogManager, ['@nia.core.migration.manager']]
+            - [ setEnv , [ '%kernel.environment%']]
+        tags:
+            - 'console.command'
+
+    nia.core.command.translation_update:
+        parent: 'nia.core.command.abstract'
+        class: '%nia.core.command.translation_update.class%'
+        calls:
+            - [ setLocales , [['hu', 'en']]]
+        tags:
+            - 'console.command'
+
+    nia.core.command.queue_worker:
+        parent: 'nia.core.command.abstract'
+        class: '%nia.core.command.queue_worker.class%'
+        calls:
+            - [ setEventDispatcher, ['@event_dispatcher']]
+            - [ setQueueManager, ['@nia.core.queue.manager']]
+            - [ setRunLogManager, ['@nia.core.run_log.manager']]
+            - [ setEntityManager, ['@doctrine.orm.entity_manager']]
+        tags:
+            - 'console.command'
+
+    nia.core.command.queue_run:
+        parent: 'nia.core.command.abstract'
+        class: '%nia.core.command.queue_run.class%'
+        calls:
+            - [ setEventDispatcher, ['@event_dispatcher']]
+            - [ setQueueManager, ['@nia.core.queue.manager']]
+        tags:
+            - 'console.command'

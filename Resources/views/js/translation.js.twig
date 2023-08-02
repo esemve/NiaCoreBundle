@@ -1,0 +1,20 @@
+var transKeys = {{ trans | raw }};
+
+function trans(key, parameters) {
+
+
+    if (typeof transKeys[key] == 'undefined' ) {
+        return '#!TRANSLATION NOT FOUND IN TRANS.JS!#';
+    }
+
+    var value = transKeys[key];
+
+    if (parameters) {
+        for (var k in parameters){
+            value = value.replace(k, parameters[k]);
+        }
+    }
+
+
+    return value;
+}

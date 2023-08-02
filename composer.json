@@ -1,0 +1,21 @@
+{
+  "name": "nia/core-bundle",
+  "description": "CoreBundle for Nia",
+  "require": {
+    "esemve/typed-collection": "*",
+    "myclabs/php-enum": "^1.5",
+    "predis/predis": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Nia\\CoreBundle\\": ""
+    }
+  },
+  "authors": [
+    {
+      "name": "esemve",
+      "email": "esemve@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev"
+}

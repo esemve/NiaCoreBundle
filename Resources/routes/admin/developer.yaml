@@ -1,0 +1,11 @@
+developer_health_download:
+    path: '/systemhealth/download'
+    controller: 'Nia\CoreBundle\Controller\SystemHealthController::downloadAction'
+
+developer_health_show:
+    path: '/systemhealth/show'
+    controller: 'Nia\CoreBundle\Controller\SystemHealthController::showAction'
+
+developer_health:
+    path: '/systemhealth'
+    controller: 'Nia\CoreBundle\Controller\SystemHealthController::indexAction'

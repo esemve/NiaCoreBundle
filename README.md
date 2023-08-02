@@ -1,2 +1,1 @@
-# NiaCoreBundle
-Symfony Bundle - Core Bundle for NIA CMS
+#Core Bundle my personal NIA CMS

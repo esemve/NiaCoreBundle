@@ -1,0 +1,304 @@
+parameters:
+    nia.core.utils.assert.class: 'Nia\CoreBundle\Utils\Assert'
+    nia.core.utils.bundle_name_helper.class: 'Nia\CoreBundle\Utils\BundleNameHelper'
+    nia.core.collection.factory.class: 'Esemve\Collection\CollectionFactory'
+    nia.core.entity.reference.factory.class: 'Nia\CoreBundle\Entity\Factory\EntityReferenceFactory'
+    nia.core.entity.factory.class: 'Nia\CoreBundle\Entity\Factory\EntityFactory'
+    nia.core.enum.factory.class: 'Nia\CoreBundle\Enum\Factory\EnumFactory'
+    nia.core.entity.manager.class: 'Nia\CoreBundle\Entity\Manager\EntityManager'
+    nia.core.persistable.manager.class: 'Nia\CoreBundle\Manager\PersistableManager'
+    nia.core.read_only.manager.class: 'Nia\CoreBundle\Manager\ReadOnlyManager'
+    nia.core.manager.factory.class: 'Nia\CoreBundle\Manager\Factory\ManagerFactory'
+    nia.core.locale.provider.class: 'Nia\CoreBundle\Provider\LocaleProvider'
+
+    nia.core.cache.provider.class: 'Nia\CoreBundle\Provider\CacheProvider'
+
+    nia.symfony.translation.extractor.class: 'Nia\CoreBundle\Symfony\Translation\Extractor\TranslationsExtractor'
+    nia.symfony.translation.enum.extractor.class: 'Nia\CoreBundle\Symfony\Translation\Extractor\EnumExtractor'
+    nia.symfony.translation.config.extractor.class: 'Nia\CoreBundle\Symfony\Translation\Extractor\ConfigExtractor'
+    nia.symfony.translation.form.extractor.class: 'Nia\CoreBundle\Symfony\Translation\Extractor\FormExtractor'
+    nia.symfony.translation.twig.extractor.class: 'Nia\CoreBundle\Symfony\Translation\Extractor\TwigExtractor'
+
+    nia.core.migration.manager.class: 'Nia\CoreBundle\Manager\MigrationManager'
+    nia.core.log.manager.class: 'Nia\CoreBundle\Manager\LogManager'
+    nia.core.constraint.unique_field.validator.class: 'Nia\CoreBundle\Constraint\UniqueFieldValidator'
+
+    nia.core.form.mediator.class: 'Nia\CoreBundle\Form\Mediator\FormMediator'
+
+    nia.core.queue.manager.class: 'Nia\CoreBundle\Manager\QueueManager'
+    nia.core.run_log.class: 'Nia\CoreBundle\Manager\RunLogManager'
+    nia.core.queue_database_driver.class: 'Nia\CoreBundle\Driver\QueueDatabaseDriver'
+
+    nia.core.mailsender.class: 'Nia\CoreBundle\Utils\MailSender'
+    nia.core.mail.queue.message.factory.class: 'Nia\CoreBundle\Factory\MailQueueMessageFactory'
+
+    nia.core.logger.class: 'Nia\CoreBundle\Service\NiaLogger'
+
+services:
+    nia.core.utils.assert:
+        class: '%nia.core.utils.assert.class%'
+        public: true
+
+    nia.core.utils.bundle_name_helper:
+        class: '%nia.core.utils.bundle_name_helper.class%'
+        public: true
+
+    nia.core.mailsender:
+        class: '%nia.core.mailsender.class%'
+        public: true
+        arguments:
+            - '%kernel.root_dir%/../public'
+            - '%kernel.root_dir%/../var/storage'
+            - '@twig'
+            - '@mailer'
+            - '@swiftmailer.transport'
+            - '%nia.core.mail_sending.default_sender_address%'
+            - '%nia.core.mail_sending.default_sender_name%'
+            - '@nia.media.storage.provider'
+            - '@nia.media.thumbnail.handler'
+            - '@nia.core.security_context.factory'
+
+    nia.core.entity.factory:
+        class: '%nia.core.entity.factory.class%'
+        public: true
+        arguments:
+            - '%nia.core.entity_override%'
+            - '@nia.core.manager.factory'
+
+    nia.core.entity.manager:
+        class: '%nia.core.entity.manager.class%'
+        public: true
+        decorates: 'doctrine.orm.entity_manager'
+        arguments:
+            - "@nia.core.entity.manager.inner"
+            - '@nia.core.entity.factory'
+            - '@nia.core.manager.factory'
+            - '%nia.core.disabled_filters%'
+            - '@service_container'
+
+    nia.core.manager.factory:
+        class: '%nia.core.manager.factory.class%'
+        public: true
+        arguments:
+            - '%nia.core.manager_mapping%'
+            - '@service_container'
+
+    nia.core.collection.factory:
+        class: '%nia.core.collection.factory.class%'
+        public: true
+
+    nia.core.entity.reference.factory:
+        class: '%nia.core.entity.reference.factory.class%'
+        public: true
+        arguments:
+            - '@nia.core.manager.factory'
+            - '@nia.core.entity.factory'
+
+    nia.core.manager.abstract:
+        abstract: true
+        public: true
+        arguments:
+            - ~
+            - ~
+            - '@doctrine.orm.entity_manager'
+            - '@nia.core.entity.factory'
+            - '@nia.core.entity.reference.factory'
+            - '@nia.core.collection.factory'
+            - '@nia.core.enum.factory'
+            - '@nia.core.locale.provider'
+            - '@nia.core.security_context.factory'
+            - '@nia.core.cache.provider'
+            - '@nia.core.logger'
+
+    nia.core.persistable.manager:
+        parent: 'nia.core.manager.abstract'
+        class: '%nia.core.persistable.manager.class%'
+        calls:
+            - [ setEventDispatcher, ['@event_dispatcher']]
+
+    nia.core.read_only.manager:
+        parent: 'nia.core.manager.abstract'
+        class: '%nia.core.read_only.manager.class%'
+
+    nia.symfony.translation.extractor:
+        class: '%nia.symfony.translation.extractor.class%'
+        tags:
+            - { name: translation.extractor, alias: translations_extractor }
+
+    nia.symfony.translation.enum.extractor:
+        class: '%nia.symfony.translation.enum.extractor.class%'
+        tags:
+            - { name: translation.extractor, alias: translations_enum_extractor }
+
+    nia.symfony.translation.config.extractor:
+        class: '%nia.symfony.translation.config.extractor.class%'
+        tags:
+            - { name: translation.extractor, alias: translations_config_extractor }
+
+    twig.translation.extractor:
+        class: '%nia.symfony.translation.twig.extractor.class%'
+        arguments:
+            - '@twig'
+        tags:
+            - { name: translation.extractor, alias: translations_twig_extractor }
+
+    nia.symfony.translation.form.extractor:
+        class: '%nia.symfony.translation.form.extractor.class%'
+        tags:
+            - { name: translation.extractor, alias: translations_form_extractor }
+
+    nia.core.form.abstract:
+        abstract: true
+        public: true
+        calls:
+            - [ setTranslator , ['@translator']]
+            - [ setCollectionFactory, ['@nia.core.collection.factory']]
+            - [ setEnumFactory, ['@nia.core.enum.factory'] ]
+            - [ setContextFactory, ['@nia.core.security_context.factory']]
+
+    nia.core.migration.manager.abstract:
+        abstract: true
+        parent: 'nia.core.persistable.manager'
+        arguments:
+            index_0: 'Nia\CoreBundle\Entity\Migration'
+
+    nia.core.migration.manager:
+        parent: 'nia.core.persistable.manager'
+        class: '%nia.core.migration.manager.class%'
+        arguments:
+            index_0: 'Nia\CoreBundle\Entity\Migration'
+            index_1:
+              - '@nia.core.query_filter.fullAccessFilter'
+
+    nia.core.log.manager:
+        parent: 'nia.core.persistable.manager'
+        class: '%nia.core.log.manager.class%'
+        arguments:
+            index_0: 'Nia\CoreBundle\Entity\Log'
+            index_1:
+                - '@nia.core.query_filter.roleFilter'
+
+    nia.core.locale.provider:
+        public: true
+        class: '%nia.core.locale.provider.class%'
+        arguments:
+            - '%nia.core.locales%'
+            - '@translator.default'
+            - '@request_stack'
+
+    nia.core.enum.factory:
+        class: '%nia.core.enum.factory.class%'
+        public: true
+        arguments:
+            - '%nia.core.enum_override%'
+            - '@nia.core.collection.factory'
+            - '@translator'
+
+    nia.core.constraint.unique_field.validator:
+        class: '%nia.core.constraint.unique_field.validator.class%'
+        calls:
+            - [ setEntityManager , ['@nia.core.entity.manager']]
+            - [ setContextFactory , ['@nia.core.security_context.factory']]
+        tags:
+          - { name: 'validator.constraint_validator' }
+
+    nia.core.query_filter.softDelete:
+        class: 'Nia\CoreBundle\Security\QueryFilters\SoftDeleteFilter'
+
+    nia.core.query_filter.fullAccessFilter:
+        class: 'Nia\CoreBundle\Security\QueryFilters\FullAccessFilter'
+
+    nia.core.query_filter.createAndDeleteGrantIfHasEditRole:
+        parent: 'nia.core.query_filter.roleFilter'
+        class: 'Nia\CoreBundle\Security\QueryFilters\CreateAndDeleteGrantIfHasEditRole'
+
+    nia.core.query_filter.undeletableFilter:
+        class: 'Nia\CoreBundle\Security\QueryFilters\UndeletableFilter'
+
+    nia.core.query_filter.createAndRead:
+        parent: 'nia.core.query_filter.roleFilter'
+        class: 'Nia\CoreBundle\Security\QueryFilters\CreateAndReadFilter'
+
+    nia.core.query_filter.activeStatusFilter:
+        class: 'Nia\CoreBundle\Security\QueryFilters\ActiveStatusQueryFilter'
+
+    nia.core.query_filter.unittest:
+        class: 'Nia\CoreBundle\Security\QueryFilters\UnitTestQueryFilter'
+        public: true
+
+    nia.core.query_filter.roleFilter:
+        class: 'Nia\CoreBundle\Security\QueryFilters\RoleFilter'
+        shared: false
+
+    nia.core.query_filter.readOnlyFilter:
+        class: 'Nia\CoreBundle\Security\QueryFilters\ReadOnlyFilter'
+        shared: false
+        arguments:
+          - '@security.token_storage'
+
+    nia.core.run_log.manager:
+        public: true
+        class: '%nia.core.run_log.class%'
+        arguments:
+          - '@doctrine.orm.entity_manager'
+
+    nia.core.queue.manager:
+        public: true
+        class: '%nia.core.queue.manager.class%'
+        shared: true
+        arguments:
+          - '@nia.core.queue_database_driver'
+
+    nia.core.queue_database_driver:
+        class: '%nia.core.queue_database_driver.class%'
+        arguments:
+          - '@doctrine.orm.entity_manager'
+
+    nia.core.cache.provider:
+        public: true
+        class: '%nia.core.cache.provider.class%'
+        arguments:
+            - '%nia.core.cache.type%'
+            - '%nia.core.cache.connection%'
+            - '%nia.core.cache.prefix%'
+            - '@service_container'
+
+    nia.core.form.mediator:
+        class: '%nia.core.form.mediator.class%'
+        public: true
+        arguments:
+            - '@session'
+
+    nia.core.mail.queue.message.factory:
+        class: '%nia.core.mail.queue.message.factory.class%'
+        public: true
+
+
+    nia.core.cache.data_collector:
+        class: 'Nia\CoreBundle\DataCollector\CacheDataCollector'
+        public: true
+        tags:
+          - { name: data_collector, template: '@NiaCore/dataCollector/cacheDataCollector.html.twig', id: 'nia.core.cache.data_collector' }
+
+    nia.core.utils.random_string_generator:
+        class: 'Nia\CoreBundle\Utils\RandomStringGenerator'
+        public: true
+
+    nia.core.security_context.factory:
+        class: 'Nia\CoreBundle\Security\Factory\ContextFactory'
+        public: true
+        arguments:
+            - '@security.token_storage'
+            - '@request_stack'
+            - '@nia.core.locale.provider'
+            - "%kernel.environment%"
+            - "%nia.service_context.config%"
+
+    nia.core.logger:
+        class: '%nia.core.logger.class%'
+        arguments:
+            - '@nia.core.entity.manager'
+            - '@request_stack'
+            - '@security.token_storage'
+            - '@nia.core.enum.factory'
+            - '%nia.core.log.not_loggable_entities%'

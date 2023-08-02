@@ -1,0 +1,180 @@
+{% extends "@NiaAdmin/admin/layout/layout.html.twig" %}
+
+{% block title %}{{ 'NiaCoreBundle@message.systemhealth'|trans }}{% endblock %}
+
+{% block buttons %}
+{% endblock %}
+
+{% block content %}
+    <div class="content mt-3">
+
+        <div class="col-lg-12 col-md-12">
+            <div class="social-box">
+                <i style="color: #fff; background-color: #00ACED">
+                    Utolsó 10 log file
+                </i>
+
+                <table cellpadding="0" class="table table-striped">
+                    <thead>
+                    <th width="50%"><b>Státusz</b></th>
+                    <th width="20%"><b>Méret</b></th>
+                    <th width="30%"><b>Érték</b></th>
+                    </thead>
+                    <tbody>
+                    {% for log in logs %}
+                    <tr>
+                        <td>{{ log.name }}</td>
+                        <td>{{ log.size }} KB</td>
+                        <td>
+                            <a href="{{ path('developer_health_download',{file: log.name}) }}" class="btn btn-secondary">Letöltés</a>
+                            <a target="_blank" href="{{ path('developer_health_show', {file: log.name}) }}" class="btn btn-secondary">Megtekint</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+
+    <div class="col-lg-6 col-md-6">
+        <div class="social-box">
+            <i style="color: #fff; {{  queueActive ? 'background-color: #00A5F0;' : 'background-color: #D34836;' }}">
+                Queue
+            </i>
+
+            <table cellpadding="0" class="table table-striped">
+                <thead>
+                    <th width="50%"><b>Státusz</b></th>
+                    <th width="50%"><b>Érték</b></th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Feltorlódott</td>
+                        <td>{{ queueAccumulated}}</td>
+                    </tr>
+                    <tr>
+                        <td>Várakozó</td>
+                        <td>{{ queueWait}}</td>
+                    </tr>
+                    <tr>
+                        <td>Megakadt</td>
+                        <td>{{ queueFail }}</td>
+                    </tr>
+                    <tr>
+                        <td>Kész, de nem törölt</td>
+                        <td>{{ queueSuccess }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <!--/social-box-->
+
+        <div class="social-box">
+            <i style="color: #fff; background-color: #00A5F0;">
+                Crontab és időbélyegek
+            </i>
+
+            <table cellpadding="0" class="table table-striped">
+                <thead>
+                <th width="50%"><b>Státusz</b></th>
+                <th width="50%"><b>Utolsó futás</b></th>
+                </thead>
+                <tbody>
+                {% for time in times %}
+                <tr>
+                    <td>{{ time.key }}</td>
+                    <td style="font-size: 10px;">{{ time.time.format('Y. m. d. H:i:s') }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-md-6">
+
+        <div class="social-box">
+            <i style="color: #fff; background-color: #00ACED">
+                Szerver status
+            </i>
+
+            <table cellpadding="0" class="table table-striped">
+                <thead>
+                <th width="20%"><b>Status</b></th>
+                <th width="80%"><b>Érték</b></th>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Load</td>
+                    <td>{{ load[0] }} / {{ load[1] }} / {{ load[2] }}</td>
+                </tr>
+                <tr>
+                    <td>PHP</td>
+                    <td>{{ phpversion }}</td>
+                </tr>
+                <tr>
+                    <td>File írás</td>
+                    <td>{{ fileWrite ? '<span class="fa fa-check"></span> OK' : '<span class="fa fa-times-circle" style="color: #D34836;"></span> Var nem írható!' }}</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+
+
+        <div class="social-box">
+            <i style="color: #fff; background-color: #00A5F0;">
+                Tűzfal
+            </i>
+
+            <table cellpadding="0" class="table table-striped">
+                <thead>
+                <th width="50%"><b>Info</b></th>
+                <th width="50%"><b>Érték</b></th>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>Letiltott IP címek</td>
+                        <td style="font-size: 10px;">0</td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+
+
+    </div>
+
+
+        <div class="col-lg-6 col-md-6">
+
+            <div class="social-box">
+                <i style="color: #fff; background-color: #00ACED">
+                   E-mail küldés teszt
+                </i>
+
+                {{ sendsuccess ?? '' }}
+
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                {{ form_end(form) }}
+
+            </div>
+        </div>
+</div>
+
+{% endblock %}
+
+{% block modals %}
+{% endblock %}

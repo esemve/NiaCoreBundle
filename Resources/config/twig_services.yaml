@@ -1,0 +1,51 @@
+services:
+
+    nia.core.slugify.twig_extension:
+       parent: 'nia.core.twig_extension.abstract'
+       class: 'Nia\CoreBundle\Twig\Extension\Slugify'
+       public: false
+       tags:
+            - { name: twig.extension }
+
+    nia.core.dateTime.twig_extension:
+        parent: 'nia.core.twig_extension.abstract'
+        class: 'Nia\CoreBundle\Twig\Extension\DateTime'
+        public: false
+        arguments:
+            - '@request_stack'
+        tags:
+            - { name: twig.extension }
+
+    nia.core.adminLocalizationMetaInfos.twig_extension:
+      parent: 'nia.core.twig_extension.abstract'
+      class: 'Nia\CoreBundle\Twig\Extension\AdminLocalizationMetaInfos'
+      public: false
+      arguments:
+        - '@request_stack'
+      tags:
+        - { name: twig.extension }
+
+    nia.core.language.twig_extension:
+      parent: 'nia.core.twig_extension.abstract'
+      class: 'Nia\CoreBundle\Twig\Extension\Language'
+      public: false
+      arguments:
+        - '@translator'
+      tags:
+        - { name: twig.extension }
+
+
+    nia.core.enum_text.twig_extension:
+      parent: 'nia.core.twig_extension.abstract'
+      class: 'Nia\CoreBundle\Twig\Extension\EnumTextExtension'
+      public: false
+      arguments:
+        - '@translator'
+      tags:
+        - { name: twig.extension }
+
+
+    nia.core.twig_extension.abstract:
+      abstract: true
+      calls:
+        - [ setContextFactory , ['@nia.core.security_context.factory']]

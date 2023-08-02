@@ -1,0 +1,48 @@
+parameters:
+    nia.core.event.doctrine_class_metadata_laoder.listener.class: 'Nia\CoreBundle\Event\Listener\DoctrineClassMetaDataLoaderListener'
+    nia.core.event.entity.on_load.listener.class: 'Nia\CoreBundle\Event\Listener\EntityOnLoadListener'
+    nia.core.simple_mail.queue.listener.class: 'Nia\CoreBundle\Event\Listener\SimpleMailQueueListener'
+    nia.core.mail.queue_message.factory.class: 'Nia\CoreBundle\Factory\MailQueueMessageFactory'
+
+services:
+
+    nia.core.event.doctrine_class_metadata_laoder.listener:
+        class: '%nia.core.event.doctrine_class_metadata_laoder.listener.class%'
+        arguments:
+            - '%nia.core.entity_override%'
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    nia.core.event.entity.on_load.listener:
+        class: '%nia.core.event.entity.on_load.listener.class%'
+        arguments:
+            - '@nia.core.entity.factory'
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }
+
+    nia.core.simple_mail.queue.listener.class:
+        parent: 'nia.core.event.listener.abstract'
+        class: '%nia.core.simple_mail.queue.listener.class%'
+        tags:
+            - { name: kernel.event_subscriber }
+        calls:
+            - [ setMailer, ['@nia.core.mailsender' ]]
+
+    nia.core.mail.queue_message.factory:
+        class: '%nia.core.mail.queue_message.factory.class%'
+        public: true
+        arguments:
+            - '@translator'
+            - '@twig'
+
+    Nia\CoreBundle\Event\Listener\KernelControllerEventListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller }
+        arguments:
+            - '@nia.core.locale.provider'
+            - "%kernel.environment%"
+
+    nia.core.event.listener.abstract:
+        abstract: true
+        calls:
+            - [ setContextFactory , ['@nia.core.security_context.factory']]

@@ -1,0 +1,38 @@
+NiaCoreBundle@form.AbstractType.submit: Submit
+NiaCoreBundle@message.id: ID
+NiaCoreBundle@enum.CacheEnum.NEGATIVE_CACHE: 'Negative cache value'
+NiaCoreBundle@enum.OrderEnum.ASC: Asc
+NiaCoreBundle@enum.OrderEnum.DESC: Desc
+NiaCoreBundle@enum.StatusEnum.ACTIVE: Active
+NiaCoreBundle@enum.StatusEnum.INACTIVE: Inactive
+LOCALE@hu: Hungarian
+LOCALE@en: English
+NiaCoreBundle@form.AbstractType.seo_title: 'SEO title'
+NiaCoreBundle@form.AbstractType.seo_description: 'SEO description'
+NiaCoreBundle@form.AbstractType.seo_keywords: 'SEO keywords'
+NiaCoreBundle@error.value_used: 'This value is already used!'
+NiaCoreBundle@enum.IsNewEnum.TRUE: New
+NiaCoreBundle@enum.IsNewEnum.FALSE: false
+NiaCoreBundle@enum.IsNewEnum.UNKNOWN: Unkown
+NiaCoreBundle@developer: Developer
+NiaCoreBundle@message.systemhealth: 'System information'
+NiaCoreBundle@button.delete: Delete
+NiaCoreBundle@button.cancel: Cancel
+NiaCoreBundle@http.status.404: 'Page not found!'
+NiaCoreBundle@http.status.500: 'Internal Server Error!'
+NiaCoreBundle@button.save: Save
+NiaCoreBundle@popup.edittitle: Edit
+NiaCoreBundle@message.locale: Locale
+LOCALE@: Locale
+NiaCoreBundle@form.AbstractType.save: Save
+NiaCoreBundle@enum.LogEventEnum.CREATE: Create
+NiaCoreBundle@enum.LogEventEnum.EDIT: Edit
+NiaCoreBundle@enum.LogEventEnum.DELETE: Delete
+NiaCoreBundle@enum.LogEventEnum.SHOW: Show
+NiaCoreBundle@enum.LogEventEnum.LOG_IN: 'Log in'
+NiaCoreBundle@enum.LogEventEnum.SEND: Send
+NiaCoreBundle@enum.LogEventEnum.START: Start
+NiaCoreBundle@enum.LogEventEnum.STOP: Stop
+NiaCoreBundle@enum.LogEventEnum.INFO: Info
+NiaCoreBundle@enum.LogEventEnum.UPLOAD: Upload
+NiaCoreBundle@alert.succesfulCopy: 'successfully copied to the clipboard:'

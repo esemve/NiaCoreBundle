@@ -1,0 +1,28 @@
+parameters:
+    Nia\CoreBundle\Form\HiddenDeleteType.class: 'Nia\CoreBundle\Form\HiddenDeleteType'
+    Nia\CoreBundle\Form\HiddenMoveType.class: 'Nia\CoreBundle\Form\HiddenMoveType'
+    Nia\CoreBundle\Form\PortalLocaleType.class: 'Nia\CoreBundle\Form\PortalLocaleType'
+
+services:
+
+    Nia\CoreBundle\Form\HiddenDeleteType:
+        parent: 'nia.core.form.abstract'
+        class: '%Nia\CoreBundle\Form\HiddenDeleteType.class%'
+        tags:
+            - { name: form.type }
+
+
+    Nia\CoreBundle\Form\HiddenMoveType:
+        parent: 'nia.core.form.abstract'
+        class: '%Nia\CoreBundle\Form\HiddenMoveType.class%'
+        tags:
+            - { name: form.type }
+
+
+    Nia\CoreBundle\Form\PortalLocaleType:
+        parent: 'nia.core.form.abstract'
+        class: '%Nia\CoreBundle\Form\PortalLocaleType.class%'
+        tags:
+            - { name: form.type }
+        calls:
+            - [ setLocaleProvider, ['@nia.core.locale.provider']]
